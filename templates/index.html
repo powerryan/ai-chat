@@ -19,16 +19,16 @@
   </head>
   <body>
     <script>
-        let thinkingInterval; // To store the animation interval
+        let thinkingInterval;
 
         function startThinking() {
             const thinkingDiv = document.createElement('div');
             thinkingDiv.id = "thinking";
-            thinkingDiv.style.display = 'block'; // Show the div
+            thinkingDiv.style.display = 'block';
             document.querySelectorAll('.answers')[0].appendChild(thinkingDiv);
             const text = 'thinking...';
             let index = 0;
-            let direction = 1; // 1 for typing, -1 for erasing
+            let direction = 1;
 
             thinkingInterval = setInterval(() => {
                 if (direction === 1) {
@@ -36,7 +36,7 @@
                     index++;
                     console.log("type: "+thinkingDiv.innerText + " index: " + index);
                     if (index > text.length) {
-                        direction = -1; // Switch to erasing
+                        direction = -1;
                         
                     }
                 } else {
@@ -45,7 +45,7 @@
                     console.log("delete: "+thinkingDiv.innerText + " index: " + index);
                     if (index < 0) {
                         index=0;
-                        direction = 1; // Switch back to typing
+                        direction = 1;
                     
                     }
                 }
@@ -53,16 +53,11 @@
         }
 
         function stopThinking() {
-            clearInterval(thinkingInterval); // Stop the animation
-            //const thinkingDiv = document.createElement('div');
+            clearInterval(thinkingInterval);
             var thinkingDiv = document.getElementById('thinking');
             if (thinkingDiv) {
-                console.log(thinkingDiv + " div")
                 thinkingDiv.remove();
-            } else {
-                console.log(thinkingDiv + ' null')
             }
-            //thinkingDiv.style.display = 'none'; // Hide the div
         }
         function sendQuestion() {
             startThinking();

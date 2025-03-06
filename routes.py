@@ -10,7 +10,6 @@ def ask():
     data = request.get_json()
     question = data.get('question', '')
     response = ollama_client.generate(model='mistral', prompt=question)
-    #return render_template("index.html", answer=response)
     return {"answer": f"{response.response}"}, 200
 
 @app.route('/home', methods=['POST', 'GET'])
