@@ -64,6 +64,7 @@
             document.getElementById('submitButton').disabled = true;
             const questionText = document.getElementById('questionInput').value;
             if (questionText.trim() == "") {
+                stopThinking();
                 alert("Looks like you haven't asked anything!");
                 document.getElementById('submitButton').disabled = false;
                 return;
