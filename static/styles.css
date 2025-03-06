@@ -6,6 +6,17 @@ body {
     justify-content: center;
     display: flex;
 }
+#thinking {
+    text-align: left;
+}
+.answers {
+    text-align: left;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: 50vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 .container {
     position: fixed;
     bottom: 0;

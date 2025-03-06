@@ -19,7 +19,53 @@
   </head>
   <body>
     <script>
+        let thinkingInterval; // To store the animation interval
+
+        function startThinking() {
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = "thinking";
+            thinkingDiv.style.display = 'block'; // Show the div
+            document.querySelectorAll('.answers')[0].appendChild(thinkingDiv);
+            const text = 'thinking...';
+            let index = 0;
+            let direction = 1; // 1 for typing, -1 for erasing
+
+            thinkingInterval = setInterval(() => {
+                if (direction === 1) {
+                    thinkingDiv.innerText = text.slice(0, index);
+                    index++;
+                    console.log("type: "+thinkingDiv.innerText + " index: " + index);
+                    if (index > text.length) {
+                        direction = -1; // Switch to erasing
+                        
+                    }
+                } else {
+                    thinkingDiv.innerText = text.slice(0, index);
+                    index--;
+                    console.log("delete: "+thinkingDiv.innerText + " index: " + index);
+                    if (index < 0) {
+                        index=0;
+                        direction = 1; // Switch back to typing
+                    
+                    }
+                }
+            }, 100);
+        }
+
+        function stopThinking() {
+            clearInterval(thinkingInterval); // Stop the animation
+            //const thinkingDiv = document.createElement('div');
+            var thinkingDiv = document.getElementById('thinking');
+            if (thinkingDiv) {
+                console.log(thinkingDiv + " div")
+                thinkingDiv.remove();
+            } else {
+                console.log(thinkingDiv + ' null')
+            }
+            //thinkingDiv.style.display = 'none'; // Hide the div
+        }
         function sendQuestion() {
+            startThinking();
             document.getElementById('submitButton').disabled = true;
             const questionText = document.getElementById('questionInput').value;
             if (questionText.trim() == "") {
@@ -39,11 +85,15 @@
             .then(response => response.json())
             .then(data => {
                 const responseDiv = document.createElement('div');
+                const space = document.createElement('hr');
                 responseDiv.innerText = data.answer;
+                stopThinking();
                 document.querySelectorAll('.answers')[0].appendChild(responseDiv);
+                document.querySelectorAll('.answers')[0].appendChild(space);
                 document.getElementById('submitButton').disabled = false;
             })
             .catch(error => {
+                stopThinking();
                 console.error('Error: ', error);
                 alert('Looks like something went wrong. Please try again.');
                 document.getElementById('questionInput').value = questionText;
@@ -57,8 +107,9 @@
                 <h1 class="title">ryanAI</h1>
             </div>
             <div class="answers">
-
+                
             </div>
+            
             <div class="container">
                 <textarea id="questionInput" placeholder="Ask anything"></textarea>
                 <button id="submitButton" onclick="sendQuestion()" class="btn-dark btn-lg btn submit" href="" aria-label="Submit">
